@@ -1,0 +1,627 @@
+<title>서귀포시 수급자 인포그래픽</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap">
+<style>
+/* Layout: 1200px editorial column; dark hero band → light sections → dark roadmap band → soft footer. Rectangular, no shadows. */
+:root {
+  --bg:#ffffff; --surface:#f7f7f7; --card:#fafafa; --ink:#262626; --body:#3c3c3c; --muted:#6b6b6b;
+  --hair:#e6e6e6; --hair2:#cccccc; --primary:#1c69d4; --primary-press:#0653b6; --on-primary:#ffffff;
+  --band:#1a2129; --band2:#262e38; --on-band:#ffffff; --on-band-soft:#bbbbbb;
+  --type-b:#262e38; --type-d:#9a9a9a; --seg-s:#9a9a9a; --seg-f:#cccccc;
+  --font:'Inter','Noto Sans KR',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#12171d; --surface:#171d24; --card:#1c232b; --ink:#eef1f4; --body:#c9cfd6; --muted:#9aa3ad;
+  --hair:#2a323b; --hair2:#3b4550; --primary:#4b8ff0; --primary-press:#6aa3f3; --on-primary:#0b1220;
+  --band:#0b0f14; --band2:#1c232b; --on-band:#ffffff; --on-band-soft:#b4bcc5;
+  --type-b:#c9cfd6; --type-d:#6b7580; --seg-s:#7d8792; --seg-f:#4a545f; color-scheme:dark; } }
+:root[data-theme="dark"] {
+  --bg:#12171d; --surface:#171d24; --card:#1c232b; --ink:#eef1f4; --body:#c9cfd6; --muted:#9aa3ad;
+  --hair:#2a323b; --hair2:#3b4550; --primary:#4b8ff0; --primary-press:#6aa3f3; --on-primary:#0b1220;
+  --band:#0b0f14; --band2:#1c232b; --on-band:#ffffff; --on-band-soft:#b4bcc5;
+  --type-b:#c9cfd6; --type-d:#6b7580; --seg-s:#7d8792; --seg-f:#4a545f; color-scheme:dark; }
+
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--body); font-family:var(--font); font-weight:300; line-height:1.55; font-size:16px; }
+.band, .sec { padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); }
+.wrap { max-width:1200px; margin:0 auto; }
+h1,h2,h3 { color:var(--ink); font-weight:700; margin:0; line-height:1.15; text-wrap:balance; }
+p { margin:0; }
+.eyebrow { font-size:13px; font-weight:700; letter-spacing:1.5px; color:var(--primary); }
+.num { font-variant-numeric:tabular-nums; }
+
+/* Hero */
+.hero { background:var(--band); color:var(--on-band); padding-block:72px 64px; }
+.hero .eyebrow { color:var(--on-band-soft); }
+.hero h1 { color:var(--on-band); font-size:clamp(32px, 5vw, 56px); margin-top:16px; }
+.hero .lead { color:var(--on-band-soft); font-size:18px; margin-top:16px; max-width:62ch; }
+.kpis { display:grid; grid-template-columns:repeat(4, 1fr); margin-top:56px; border-top:1px solid #3a444f; }
+.kpi { padding:24px 24px 0 0; display:flex; flex-direction:column; gap:6px; min-width:0; }
+.kpi + .kpi { padding-left:24px; border-left:1px solid #3a444f; }
+.kpi .v { font-size:clamp(32px, 4.4vw, 52px); font-weight:700; color:var(--on-band); line-height:1.05; }
+.kpi .v.accent { color:#6aa3f3; }
+.kpi .l { font-size:13px; font-weight:700; letter-spacing:1px; color:var(--on-band); }
+.kpi .s { font-size:14px; color:var(--on-band-soft); }
+
+/* Sections */
+.sec { padding-block:72px; }
+.sec.soft { background:var(--surface); }
+.sec-head { display:flex; flex-direction:column; gap:12px; margin-bottom:32px; }
+.sec-head h2 { font-size:clamp(26px, 3.4vw, 36px); }
+.sec-head .note { color:var(--muted); font-size:15px; max-width:70ch; }
+
+/* Composition */
+.comp { display:grid; grid-template-columns:minmax(0, 360px) minmax(0, 1fr); gap:56px; align-items:start; }
+.waffle { display:grid; grid-template-columns:repeat(10, 1fr); gap:4px; max-width:360px; }
+.waffle i { aspect-ratio:1; display:block; max-width:100%; }
+.waffle-cap { margin-top:12px; font-size:13px; color:var(--muted); }
+.typerows { display:flex; flex-direction:column; }
+.typerow { display:grid; grid-template-columns:20px minmax(0, 1fr) auto auto; gap:16px; align-items:center; padding:16px 0; border-top:1px solid var(--hair); }
+.typerow:last-child { border-bottom:1px solid var(--hair); }
+.typerow .sw { width:16px; height:16px; }
+.typerow .t { color:var(--ink); font-weight:700; font-size:17px; }
+.typerow .d { color:var(--muted); font-size:14px; }
+.typerow .p { font-size:28px; font-weight:700; color:var(--ink); text-align:right; }
+.typerow .n { font-size:14px; color:var(--muted); text-align:right; min-width:9ch; }
+.sw-g { background:var(--primary); } .sw-c { background:var(--type-b); } .sw-s { background:var(--seg-s); } .sw-f { background:var(--seg-f); }
+
+/* Contrast panel */
+.versus { display:grid; grid-template-columns:1fr auto 1fr; gap:0; border:1px solid var(--hair); background:var(--bg); }
+.vcol { padding:28px; min-width:0; }
+.vcol h3 { font-size:18px; margin-bottom:16px; }
+.vlist { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+.vlist li { display:grid; grid-template-columns:28px minmax(0, 1fr) auto; gap:12px; align-items:baseline; padding:10px 0; border-top:1px solid var(--hair); font-size:16px; cursor:pointer; }
+.vlist li:hover .nm, .vlist li.on .nm { color:var(--primary); }
+.vlist .rk { font-weight:700; color:var(--muted); }
+.vlist .nm { color:var(--ink); font-weight:700; }
+.vlist .vv { font-weight:700; color:var(--ink); }
+.vmid { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:28px; background:var(--band); color:var(--on-band); text-align:center; }
+.vmid .big { font-size:64px; font-weight:700; line-height:1; }
+.vmid .sm { font-size:14px; color:var(--on-band-soft); max-width:16ch; }
+
+/* Controls */
+.controls { display:flex; flex-wrap:wrap; gap:24px; align-items:center; margin-bottom:24px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.ctl-label { font-size:13px; font-weight:700; letter-spacing:1px; color:var(--muted); margin-right:4px; }
+.chip { font:inherit; font-size:13px; font-weight:700; letter-spacing:.5px; padding:8px 14px; border:1px solid var(--hair2); background:var(--bg); color:var(--ink); cursor:pointer; border-radius:0; }
+.chip[aria-pressed="true"] { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+.chip:focus-visible, .btn:focus-visible, .vlist li:focus-visible, .bar-row:focus-visible, th button:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+
+/* Explorer grid */
+.explore { display:grid; grid-template-columns:minmax(0, 1.15fr) minmax(0, 1fr); gap:32px; align-items:start; }
+.panel { background:var(--bg); border:1px solid var(--hair); padding:24px; min-width:0; }
+.panel h3 { font-size:18px; }
+.panel .sub { font-size:14px; color:var(--muted); margin-top:4px; }
+.bars { display:flex; flex-direction:column; gap:6px; margin-top:20px; }
+.bar-row { display:grid; grid-template-columns:64px minmax(0, 1fr) 64px; gap:12px; align-items:center; cursor:pointer; padding:2px 0; transition:opacity .2s; }
+.bar-row .bn { font-size:14px; color:var(--ink); }
+.bar-row .track { height:16px; position:relative; }
+.bar-row .fill { height:100%; background:var(--type-d); transition:width .4s ease; }
+.bar-row.top .fill { background:var(--primary); }
+.bar-row.top .bn, .bar-row.top .bv { font-weight:700; }
+.bar-row .bv { font-size:14px; text-align:right; color:var(--ink); }
+.bar-row.sel .bn { color:var(--primary); font-weight:700; }
+.bar-row.sel .fill { outline:2px solid var(--ink); outline-offset:1px; }
+.bar-row.dim { opacity:.25; }
+.avgline { position:absolute; top:-3px; bottom:-3px; width:0; border-left:2px dashed var(--ink); opacity:.55; }
+
+/* Detail */
+.detail .dname { font-size:28px; font-weight:700; color:var(--ink); line-height:1.1; }
+.badge { display:inline-block; font-size:12px; font-weight:700; letter-spacing:1px; padding:4px 8px; margin-left:8px; vertical-align:middle; color:var(--on-primary); background:var(--primary); }
+.badge.B { background:var(--type-b); color:var(--bg); }
+.badge.C { background:transparent; color:var(--primary); border:1px solid var(--primary); }
+.badge.D { background:var(--type-d); color:#ffffff; }
+.dgrid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); margin-top:20px; border-top:1px solid var(--hair); }
+.dcell { padding:16px 16px 16px 0; border-bottom:1px solid var(--hair); min-width:0; }
+.dcell:nth-child(even) { padding-left:16px; border-left:1px solid var(--hair); }
+.dcell .dv { font-size:26px; font-weight:700; color:var(--ink); line-height:1.1; }
+.dcell .dl { font-size:12px; font-weight:700; letter-spacing:1px; color:var(--muted); margin-top:4px; }
+.dcell .dd { font-size:13px; margin-top:2px; }
+.up { color:var(--primary); } .down { color:var(--muted); }
+.stack { display:flex; height:20px; margin-top:20px; }
+.stack span { height:100%; transition:width .4s ease; }
+.legend { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:10px; font-size:13px; color:var(--body); }
+.legend b { color:var(--ink); }
+.legend i { display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:middle; }
+.dhint { margin-top:16px; font-size:13px; color:var(--muted); }
+
+/* Scatter */
+.scatter-wrap { position:relative; margin-top:16px; }
+.scatter-wrap svg { width:100%; height:auto; display:block; }
+.ax { stroke:var(--hair2); stroke-width:1.5; }
+.thr { stroke:var(--muted); stroke-width:1.5; stroke-dasharray:6 5; }
+.tick { fill:var(--muted); font-size:13px; font-family:var(--font); }
+.qlab { fill:var(--muted); font-size:13px; font-weight:700; font-family:var(--font); }
+.plab { fill:var(--ink); font-size:13px; font-family:var(--font); pointer-events:none; transition:opacity .2s; }
+.dot { cursor:pointer; transition:opacity .2s; }
+.dot.A { fill:var(--primary); } .dot.B { fill:var(--type-b); } .dot.C { fill:var(--bg); stroke:var(--primary); stroke-width:3; } .dot.D { fill:var(--type-d); }
+.dot.sel { stroke:var(--ink); stroke-width:3; }
+.dim { opacity:.18; }
+.tip { position:absolute; pointer-events:none; background:var(--bg); border:1px solid var(--hair2); padding:8px 12px; font-size:13px; white-space:nowrap; color:var(--body); z-index:2; }
+.tip b { color:var(--ink); }
+.typekey { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:0; margin-top:24px; border-top:1px solid var(--hair); }
+.tk { padding:16px 16px 0 0; min-width:0; }
+.tk + .tk { padding-left:16px; border-left:1px solid var(--hair); }
+.tk .tt { display:flex; align-items:center; gap:8px; color:var(--ink); font-weight:700; font-size:15px; }
+.tk .tr { font-size:13px; color:var(--body); margin-top:6px; }
+.tk .td { font-size:13px; color:var(--muted); margin-top:4px; }
+.mk { width:12px; height:12px; border-radius:50%; flex:none; }
+.mk.A { background:var(--primary); } .mk.B { background:var(--type-b); } .mk.C { border:2.5px solid var(--primary); } .mk.D { background:var(--type-d); }
+
+/* Dong vs Eup */
+.split { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:32px; margin-top:32px; }
+.split .sv { font-size:44px; font-weight:700; color:var(--ink); line-height:1.05; }
+.split .sl { font-size:13px; font-weight:700; letter-spacing:1px; color:var(--muted); margin-top:6px; }
+.split .sd { font-size:14px; margin-top:4px; }
+.split > div { border-top:2px solid var(--ink); padding-top:16px; min-width:0; }
+.split > div.hl { border-top-color:var(--primary); }
+
+/* Table */
+.tbl-box { overflow-x:auto; border:1px solid var(--hair); background:var(--bg); }
+table { border-collapse:collapse; width:100%; font-size:14px; min-width:860px; }
+th, td { padding:10px 12px; text-align:right; border-bottom:1px solid var(--hair); white-space:nowrap; }
+th { background:var(--surface); font-weight:700; color:var(--ink); }
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align:left; }
+th button { font:inherit; font-weight:700; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+th button::after { content:" ↕"; color:var(--muted); font-weight:400; }
+th[aria-sort="ascending"] button::after { content:" ↑"; color:var(--primary); }
+th[aria-sort="descending"] button::after { content:" ↓"; color:var(--primary); }
+tbody tr { cursor:pointer; }
+tbody tr:hover td { background:var(--card); }
+tbody tr.sel td { background:var(--surface); }
+tbody tr.sel td:first-child { box-shadow:inset 3px 0 0 var(--primary); }
+tfoot td { font-weight:700; color:var(--ink); border-top:2px solid var(--hair2); }
+td .tb { font-size:11px; font-weight:700; padding:2px 6px; margin-left:6px; }
+
+/* Roadmap */
+.road { background:var(--band); color:var(--on-band); padding-block:72px; }
+.road h2 { color:var(--on-band); font-size:clamp(26px, 3.4vw, 36px); }
+.road .eyebrow { color:var(--on-band-soft); }
+.steps { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:24px; margin-top:40px; }
+.step { border-top:3px solid #3a444f; padding-top:20px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.step.now { border-top-color:#6aa3f3; }
+.step .sn { font-size:13px; font-weight:700; letter-spacing:1px; color:#6aa3f3; }
+.step h3 { color:var(--on-band); font-size:22px; }
+.step ul { margin:0; padding-left:18px; color:var(--on-band-soft); font-size:14px; display:flex; flex-direction:column; gap:4px; }
+.step .gate { margin-top:auto; background:var(--band2); padding:14px 16px; font-size:13px; color:var(--on-band-soft); }
+.step .gate b { display:block; color:var(--on-band); font-size:13px; margin-bottom:2px; }
+
+/* Caution & footer */
+.caution { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:24px; }
+.caution > div { border-left:3px solid var(--primary); padding:4px 0 4px 16px; min-width:0; }
+.caution h3 { font-size:16px; }
+.caution p { font-size:14px; margin-top:6px; }
+.foot { background:var(--surface); padding-block:40px; font-size:13px; color:var(--muted); border-top:1px solid var(--hair); }
+
+@media (max-width: 960px) {
+  .comp, .explore { grid-template-columns:minmax(0, 1fr); }
+  .steps, .caution { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .typekey { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .tk:nth-child(3) { padding-left:0; border-left:0; }
+}
+@media (max-width: 640px) {
+  .kpis { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(3) { padding-left:0; border-left:0; }
+  .versus { grid-template-columns:minmax(0, 1fr); }
+  .split, .steps, .caution { grid-template-columns:minmax(0, 1fr); }
+  .plab { display:none; }
+  .sec, .road { padding-block:56px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+</style>
+
+<header class="band hero">
+  <div class="wrap">
+    <p class="eyebrow">서귀포시 기초생활보장 수급 현황 · 2024년 4월 30일 기준</p>
+    <h1>수급자 10,237명, 어디에 얼마나 있나</h1>
+    <p class="lead">17개 읍면동의 수급 규모와 조건부 비중을 함께 봅니다. 지역을 누르면 막대, 산점도, 상세 정보, 표가 함께 바뀝니다.</p>
+    <div class="kpis">
+      <div class="kpi"><span class="v num">10,237</span><span class="l">수급권자(명)</span><span class="s">7,197가구 · 가구당 1.42명</span></div>
+      <div class="kpi"><span class="v accent num">53.6%</span><span class="l">상위 5개 읍면동 점유율</span><span class="s">동홍·대정·성산·남원·대천</span></div>
+      <div class="kpi"><span class="v num">15.7%</span><span class="l">조건부 비중 시 평균</span><span class="s">재가 수급권자 기준</span></div>
+      <div class="kpi"><span class="v num">61</span><span class="l">시설수급자(명)</span><span class="s">지역 수요 지표에서 분리</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="sec band" id="composition">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">유형별 구성</p>
+      <h2>수급권자 100명 중 82명이 일반수급자입니다</h2>
+    </div>
+    <div class="comp">
+      <div>
+        <div class="waffle" id="waffle" role="img" aria-label="수급권자 100명 기준 유형 구성: 일반 82, 조건부 16, 특례 1, 시설 1"></div>
+        <p class="waffle-cap">한 칸 = 수급권자 약 102명</p>
+      </div>
+      <div class="typerows">
+        <div class="typerow"><span class="sw sw-g"></span><div><p class="t">일반수급자</p><p class="d">가구당 1.37명</p></div><p class="p num">82.2%</p><p class="n num">8,417명</p></div>
+        <div class="typerow"><span class="sw sw-c"></span><div><p class="t">조건부수급자</p><p class="d">가구당 1.88명 · 자활 참여 조건</p></div><p class="p num">15.6%</p><p class="n num">1,598명</p></div>
+        <div class="typerow"><span class="sw sw-s"></span><div><p class="t">특례수급자</p><p class="d">가구당 1.27명</p></div><p class="p num">1.6%</p><p class="n num">161명</p></div>
+        <div class="typerow"><span class="sw sw-f"></span><div><p class="t">시설수급자</p><p class="d">모두 1인 1가구</p></div><p class="p num">0.6%</p><p class="n num">61명</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec soft band" id="versus">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">우선순위 판단</p>
+      <h2>규모 상위 5곳과 조건부 비중 상위 5곳은 한 곳도 겹치지 않습니다</h2>
+      <p class="note">조건부 비중 = 조건부수급권자 ÷ (전체 − 시설수급권자). 자활·고용 지원 필요도를 보여 줍니다.</p>
+    </div>
+    <div class="versus">
+      <div class="vcol"><h3>수급권자 규모 상위 5</h3><ol class="vlist" id="vSize"></ol></div>
+      <div class="vmid"><span class="big num" id="vOverlap">0</span><span class="sm">곳 겹침</span></div>
+      <div class="vcol"><h3>조건부 비중 상위 5</h3><ol class="vlist" id="vCond"></ol></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="explore">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">읍면동 탐색</p>
+      <h2>지역을 골라 비교해 보세요</h2>
+    </div>
+    <div class="controls">
+      <div class="chips" role="group" aria-label="막대 기준">
+        <span class="ctl-label">막대 기준</span>
+        <button class="chip" id="m-P" data-metric="P" aria-pressed="true">수급권자</button>
+        <button class="chip" id="m-cr" data-metric="cr" aria-pressed="false">조건부 비중</button>
+        <button class="chip" id="m-ph" data-metric="ph" aria-pressed="false">가구당 인원</button>
+      </div>
+      <div class="chips" role="group" aria-label="지역 필터">
+        <span class="ctl-label">필터</span>
+        <button class="chip" id="f-all" data-filter="all" aria-pressed="true">전체</button>
+        <button class="chip" id="f-dong" data-filter="동" aria-pressed="false">동</button>
+        <button class="chip" id="f-eup" data-filter="읍면" aria-pressed="false">읍면</button>
+        <button class="chip" id="f-A" data-filter="A" aria-pressed="false">A</button>
+        <button class="chip" id="f-B" data-filter="B" aria-pressed="false">B</button>
+        <button class="chip" id="f-C" data-filter="C" aria-pressed="false">C</button>
+        <button class="chip" id="f-D" data-filter="D" aria-pressed="false">D</button>
+      </div>
+    </div>
+    <div class="explore">
+      <div class="panel">
+        <h3 id="barTitle">수급권자 순위</h3>
+        <p class="sub" id="barSub">상위 5곳 강조 · 단위: 명</p>
+        <div class="bars" id="bars"></div>
+      </div>
+      <div class="panel detail" id="detail" aria-live="polite"></div>
+    </div>
+
+    <div class="panel" style="margin-top:32px">
+      <h3>규모 × 조건부 비중: 네 가지 지역 유형(잠정)</h3>
+      <p class="sub">기준: 수급권자 500명, 조건부 비중 시 평균 15.70%. 수급률이 산출되면 다시 분류합니다.</p>
+      <div class="scatter-wrap" id="scatterWrap">
+        <svg id="scatter" viewBox="0 0 800 480" role="img" aria-label="17개 읍면동의 수급권자 수와 조건부 비중 산점도"></svg>
+        <div class="tip" id="tip" hidden></div>
+      </div>
+      <div class="typekey">
+        <div class="tk"><p class="tt"><span class="mk A"></span>A · 규모 큼, 비중 높음</p><p class="tr">남원읍 대천동 표선면 대륜동 서홍동</p><p class="td">자활·고용 연계 + 사례관리 인력 보강</p></div>
+        <div class="tk"><p class="tt"><span class="mk B"></span>B · 규모 큼, 평균 이하</p><p class="tr">동홍동 대정읍 성산읍</p><p class="td">일반수급 사례관리·돌봄 중심</p></div>
+        <div class="tk"><p class="tt"><span class="mk C"></span>C · 규모 작음, 비중 높음</p><p class="tr">중앙동 효돈동 정방동 송산동 예래동</p><p class="td">인접 동을 묶은 공동 자활·고용 상담</p></div>
+        <div class="tk"><p class="tt"><span class="mk D"></span>D · 규모 작음, 평균 이하</p><p class="tr">중문동 안덕면 천지동 영천동</p><p class="td">기본 사례관리, 영천동은 시설 연계 별도</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec soft band" id="dongeup">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">동 지역 vs 읍면 지역</p>
+      <h2>조건부 비중은 동 지역이 더 높습니다</h2>
+      <p class="note">중앙동·대륜동·효돈동·정방동·서홍동은 규모는 중간 이하지만 조건부 비중이 19~21%입니다. 다만 조건부수급자 모두가 바로 일할 수 있는 것은 아니므로 건강·돌봄·교통 여건을 개별 평가해야 합니다.</p>
+    </div>
+    <div class="split" id="split"></div>
+  </div>
+</section>
+
+<section class="sec band" id="table">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">전체 자료</p>
+      <h2>17개 읍면동 현황표</h2>
+      <p class="note">열 이름을 누르면 정렬됩니다. 위의 필터가 표에도 적용됩니다.</p>
+    </div>
+    <div class="tbl-box">
+      <table id="tbl">
+        <thead><tr>
+          <th data-k="name"><button>읍면동</button></th>
+          <th data-k="gb"><button>구분</button></th>
+          <th data-k="H"><button>가구</button></th>
+          <th data-k="P" aria-sort="descending"><button>수급권자</button></th>
+          <th data-k="share"><button>시 점유율</button></th>
+          <th data-k="cP"><button>조건부(명)</button></th>
+          <th data-k="cr"><button>조건부 비중</button></th>
+          <th data-k="sP"><button>특례(명)</button></th>
+          <th data-k="fP"><button>시설(명)</button></th>
+          <th data-k="ph"><button>가구당 인원</button></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+        <tfoot id="tfoot"></tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="road band" id="roadmap">
+  <div class="wrap">
+    <p class="eyebrow">실행계획</p>
+    <h2 style="margin-top:12px">정비 → 조사·평가 → 시범 → 확대</h2>
+    <div class="steps">
+      <div class="step now"><p class="sn">1단계 · 0~6개월</p><h3>즉시 정비</h3><ul><li>데이터 품질 점검</li><li>읍면동 수급률 산출</li><li>업무량 파악</li><li>시설수급자 분리 관리</li></ul><p class="gate"><b>완료 기준</b>점검 보고, 유형 재분류, 인력 배치 기준안</p></div>
+      <div class="step"><p class="sn">2단계 · 6~18개월</p><h3>조사·평가</h3><ul><li>기존 자활사업 성과 평가</li><li>조건부수급자 개별 평가</li><li>접근성·지역 고용 여건 조사</li></ul><p class="gate"><b>완료 기준</b>사업별 확대·개선·종료 판단</p></div>
+      <div class="step"><p class="sn">3단계 · 2년차</p><h3>시범사업</h3><ul><li>유형별 1~2곳, 1년 이상</li><li>비교 지역과 성과 비교</li><li>빅데이터 탐지는 제외</li></ul><p class="gate"><b>진입 조건</b>예산·재원·인력·평가 방법 확정</p></div>
+      <div class="step"><p class="sn">4단계 · 3년차 이후</p><h3>확대·조정</h3><ul><li>성과 기준을 넘긴 사업만 확대</li><li>재정·조직 계획 별도 수립</li><li>운영비 사업은 비용편익 분석</li></ul><p class="gate"><b>진입 조건</b>시범사업 성과 기준 충족</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="caution">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">읽을 때 주의할 점</p>
+      <h2>2024년 한 시점의 구조 진단입니다</h2>
+    </div>
+    <div class="caution">
+      <div><h3>추이는 해석하지 않음</h3><p>2020~2023년 값은 2024년 원본에 배율과 잡음을 넣은 교육용 가상데이터라 쓰지 않았습니다.</p></div>
+      <div><h3>수급률은 산출 예정</h3><p>읍면동 주민등록인구가 아직 없어, 지역 우선순위의 최종 지표인 재가 수급률을 계산하지 못했습니다.</p></div>
+      <div><h3>시설수급자는 분리</h3><p>시설 소재지 효과로 보고 조건부 비중 계산에서 뺐습니다. 영천동 15명이 대표적입니다.</p></div>
+      <div><h3>확인이 필요한 칸</h3><p>성산읍 특례수급자는 10가구·9명으로 수급권자가 가구보다 적습니다. 원자료 집계 기준을 확인합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot band">
+  <div class="wrap">
+    출처: 서귀포시 기초생활보장수급자 현황(공공데이터, 2024-04-30 기준). 원자료 열 이름 ‘특계수급자’는 ‘특례수급자’로 표기했습니다. 지역 유형과 실행계획은 「서귀포시 읍면동별 기초생활보장 수급 현황 진단 및 취약계층 지원 계획(최종 보고서, 2026-10-15)」을 따릅니다.
+  </div>
+</footer>
+
+<script>
+(function () {
+  // 원자료: 이름, 구분, 일반(가구,명), 조건부(가구,명), 특례(가구,명), 시설(가구,명)
+  var RAW = [
+    ['남원읍','읍면',562,747,71,149,11,12,9,9], ['대륜동','동',283,429,60,115,6,7,9,9],
+    ['대정읍','읍면',796,1029,90,159,10,10,5,5], ['대천동','동',461,670,64,131,13,24,0,0],
+    ['동홍동','동',851,1254,111,235,22,27,2,2], ['서홍동','동',302,437,48,104,1,1,7,7],
+    ['성산읍','읍면',671,903,60,108,10,9,4,4], ['송산동','동',129,154,23,33,5,6,0,0],
+    ['안덕면','읍면',283,384,32,55,10,14,8,8], ['영천동','동',138,202,16,22,1,1,15,15],
+    ['예래동','동',111,129,12,25,4,5,0,0], ['정방동','동',151,173,31,43,2,2,0,0],
+    ['중문동','동',293,389,43,75,14,15,1,1], ['중앙동','동',293,358,58,98,3,8,0,0],
+    ['천지동','동',265,338,41,56,8,9,0,0], ['표선면','읍면',368,497,57,107,3,3,1,1],
+    ['효돈동','동',201,324,34,83,4,8,0,0]
+  ];
+  var D = RAW.map(function (r) {
+    return { name:r[0], gb:r[1], gH:r[2], gP:r[3], cH:r[4], cP:r[5], sH:r[6], sP:r[7], fH:r[8], fP:r[9] };
+  });
+  var T = { H:0, P:0, cP:0, fP:0, gP:0, sP:0 };
+  D.forEach(function (d) {
+    d.H = d.gH + d.cH + d.sH + d.fH; d.P = d.gP + d.cP + d.sP + d.fP;
+    d.cr = d.cP / (d.P - d.fP) * 100; d.ph = d.P / d.H;
+    T.H += d.H; T.P += d.P; T.cP += d.cP; T.fP += d.fP; T.gP += d.gP; T.sP += d.sP;
+  });
+  var AVG = T.cP / (T.P - T.fP) * 100;
+  D.forEach(function (d) {
+    d.share = d.P / T.P * 100;
+    var big = d.P >= 500, hi = d.cr > AVG;
+    d.type = big ? (hi ? 'A' : 'B') : (hi ? 'C' : 'D');
+  });
+  var byP = D.slice().sort(function (a, b) { return b.P - a.P; });
+  var TOP5 = byP.slice(0, 5).map(function (d) { return d.name; });
+
+  var fmt = function (n) { return n.toLocaleString('ko-KR'); };
+  var pct = function (n) { return n.toFixed(1) + '%'; };
+  var state = { metric:'P', filter:'all', sel:null, sortK:'P', sortDir:-1 };
+  var $ = function (id) { return document.getElementById(id); };
+  var passes = function (d) {
+    var f = state.filter;
+    return f === 'all' || d.gb === f || d.type === f;
+  };
+
+  // 와플
+  (function () {
+    var parts = [['g', T.gP], ['c', T.cP], ['s', T.sP], ['f', T.fP]];
+    var raw = parts.map(function (p) { return p[1] / T.P * 100; });
+    var cnt = raw.map(Math.floor), left = 100 - cnt.reduce(function (a, b) { return a + b; }, 0);
+    raw.map(function (v, i) { return [v - Math.floor(v), i]; }).sort(function (a, b) { return b[0] - a[0]; })
+       .slice(0, left).forEach(function (x) { cnt[x[1]]++; });
+    var html = '';
+    parts.forEach(function (p, i) { for (var k = 0; k < cnt[i]; k++) html += '<i class="sw-' + p[0] + '"></i>'; });
+    $('waffle').innerHTML = html;
+  })();
+
+  // 규모 vs 비중
+  (function () {
+    var byC = D.slice().sort(function (a, b) { return b.cr - a.cr; }).slice(0, 5);
+    var row = function (d, i, v) {
+      return '<li tabindex="0" data-name="' + d.name + '"><span class="rk">' + (i + 1) + '</span><span class="nm">' + d.name + '</span><span class="vv num">' + v + '</span></li>';
+    };
+    $('vSize').innerHTML = byP.slice(0, 5).map(function (d, i) { return row(d, i, fmt(d.P) + '명'); }).join('');
+    $('vCond').innerHTML = byC.map(function (d, i) { return row(d, i, pct(d.cr)); }).join('');
+    var overlap = byC.filter(function (d) { return TOP5.indexOf(d.name) >= 0; }).length;
+    $('vOverlap').textContent = overlap;
+  })();
+
+  // 막대
+  var METRIC = {
+    P:  { title:'수급권자 순위', sub:'상위 5곳 강조 · 단위: 명', v:function (d) { return d.P; }, f:function (d) { return fmt(d.P); }, max:function () { return byP[0].P; }, avg:null },
+    cr: { title:'조건부 비중 순위', sub:'점선 = 시 평균 15.7% · 재가 수급권자 기준', v:function (d) { return d.cr; }, f:function (d) { return pct(d.cr); }, max:function () { return 24; }, avg:AVG },
+    ph: { title:'가구당 수급권자 순위', sub:'점선 = 시 평균 1.42명 · 평균 가구 규모 비교', v:function (d) { return d.ph; }, f:function (d) { return d.ph.toFixed(2); }, max:function () { return 2; }, avg:T.P / T.H }
+  };
+  function renderBars() {
+    var m = METRIC[state.metric];
+    $('barTitle').textContent = m.title; $('barSub').textContent = m.sub;
+    var list = D.slice().sort(function (a, b) { return m.v(b) - m.v(a); });
+    var max = m.max();
+    $('bars').innerHTML = list.map(function (d) {
+      var cls = 'bar-row' + (state.metric === 'P' ? (TOP5.indexOf(d.name) >= 0 ? ' top' : '') : (m.v(d) > m.avg ? ' top' : '')) +
+        (state.sel === d.name ? ' sel' : '') + (passes(d) ? '' : ' dim');
+      var avg = m.avg ? '<span class="avgline" style="left:' + (m.avg / max * 100) + '%"></span>' : '';
+      return '<div class="' + cls + '" tabindex="0" role="button" data-name="' + d.name + '" aria-label="' + d.name + ' ' + m.f(d) + '">' +
+        '<span class="bn">' + d.name + '</span><span class="track"><span class="fill" style="display:block;width:' + (m.v(d) / max * 100) + '%"></span>' + avg + '</span>' +
+        '<span class="bv num">' + m.f(d) + '</span></div>';
+    }).join('');
+  }
+
+  // 상세
+  function renderDetail() {
+    var d = state.sel ? D.filter(function (x) { return x.name === state.sel; })[0] : null;
+    var name, badge = '', P, H, cr, ph, g, c, s, f, foot;
+    if (d) {
+      name = d.name; badge = '<span class="badge ' + d.type + '">' + d.type + '유형</span>';
+      P = d.P; H = d.H; cr = d.cr; ph = d.ph; g = d.gP; c = d.cP; s = d.sP; f = d.fP;
+      var rank = byP.indexOf(d) + 1;
+      foot = d.gb + ' 지역 · 수급권자 규모 17곳 중 ' + rank + '위 · 시 점유율 ' + pct(d.share);
+    } else {
+      name = '서귀포시 전체'; P = T.P; H = T.H; cr = AVG; ph = T.P / T.H; g = T.gP; c = T.cP; s = T.sP; f = T.fP;
+      foot = '왼쪽 막대나 아래 산점도에서 지역을 누르면 그 지역 정보로 바뀝니다.';
+    }
+    var diff = function (v, base, unit, digits) {
+      if (!d) return '<p class="dd down">시 평균</p>';
+      var x = v - base, s2 = (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(digits) + unit;
+      return '<p class="dd ' + (x > 0 ? 'up' : 'down') + '">시 평균 대비 ' + s2 + '</p>';
+    };
+    var w = function (v) { return (v / P * 100) + '%'; };
+    $('detail').innerHTML =
+      '<p class="eyebrow">' + (d ? '선택한 지역' : '전체') + '</p>' +
+      '<p class="dname" style="margin-top:8px">' + name + badge + '</p>' +
+      '<div class="dgrid">' +
+        '<div class="dcell"><p class="dv num">' + fmt(P) + '</p><p class="dl">수급권자(명)</p></div>' +
+        '<div class="dcell"><p class="dv num">' + fmt(H) + '</p><p class="dl">수급 가구</p></div>' +
+        '<div class="dcell"><p class="dv num">' + pct(cr) + '</p><p class="dl">조건부 비중</p>' + diff(cr, AVG, '%p', 1) + '</div>' +
+        '<div class="dcell"><p class="dv num">' + ph.toFixed(2) + '</p><p class="dl">가구당 인원</p>' + diff(ph, T.P / T.H, '명', 2) + '</div>' +
+      '</div>' +
+      '<div class="stack" role="img" aria-label="유형 구성: 일반 ' + g + '명, 조건부 ' + c + '명, 특례 ' + s + '명, 시설 ' + f + '명">' +
+        '<span class="sw-g" style="width:' + w(g) + '"></span><span class="sw-c" style="width:' + w(c) + '"></span>' +
+        '<span class="sw-s" style="width:' + w(s) + '"></span><span class="sw-f" style="width:' + w(f) + '"></span></div>' +
+      '<div class="legend">' +
+        '<span><i class="sw-g"></i>일반 <b class="num">' + fmt(g) + '</b></span><span><i class="sw-c"></i>조건부 <b class="num">' + fmt(c) + '</b></span>' +
+        '<span><i class="sw-s"></i>특례 <b class="num">' + fmt(s) + '</b></span><span><i class="sw-f"></i>시설 <b class="num">' + fmt(f) + '</b></span></div>' +
+      '<p class="dhint">' + foot + (d && d.name === '성산읍' ? ' · 특례 10가구·9명은 원자료 확인 필요' : '') + (d && d.fP >= 9 ? ' · 시설수급자는 지역 수요에서 분리' : '') + '</p>' +
+      (d ? '<p style="margin-top:12px"><button class="chip" id="clearSel">전체 보기</button></p>' : '');
+    var cb = $('clearSel'); if (cb) cb.addEventListener('click', function () { select(null); });
+  }
+
+  // 산점도
+  var SX = function (v) { return 56 + v / 1600 * 724; };
+  var SY = function (v) { return 430 - (v - 8) / 14 * 410; };
+  var LAB = { '대정읍':'r', '성산읍':'r', '남원읍':'r', '대륜동':'r', '서홍동':'r2', '효돈동':'r', '중문동':'rb', '안덕면':'r', '천지동':'r', '영천동':'r',
+              '예래동':'ra', '중앙동':'l', '정방동':'l', '송산동':'l', '표선면':'l', '대천동':'al', '동홍동':'b' };
+  function renderScatter() {
+    var svg = $('scatter'), h = '';
+    h += '<line class="ax" x1="56" y1="430" x2="780" y2="430"/><line class="ax" x1="56" y1="20" x2="56" y2="430"/>';
+    [0, 500, 1000, 1500].forEach(function (t) { h += '<text class="tick" x="' + SX(t) + '" y="452" text-anchor="middle">' + fmt(t) + '</text>'; });
+    [10, 15, 20].forEach(function (t) { h += '<text class="tick" x="48" y="' + (SY(t) + 4) + '" text-anchor="end">' + t + '%</text>'; });
+    h += '<text class="tick" x="780" y="474" text-anchor="end">수급권자(명) →</text>';
+    h += '<line class="thr" x1="' + SX(500) + '" y1="20" x2="' + SX(500) + '" y2="430"/>';
+    h += '<line class="thr" x1="56" y1="' + SY(AVG) + '" x2="780" y2="' + SY(AVG) + '"/>';
+    h += '<text class="tick" x="776" y="' + (SY(AVG) - 6) + '" text-anchor="end">시 평균 15.70%</text>';
+    h += '<text class="qlab" x="776" y="38" text-anchor="end">A 큼·높음</text><text class="qlab" x="66" y="38">C 작음·높음</text>';
+    h += '<text class="qlab" x="776" y="420" text-anchor="end">B 큼·평균 이하</text><text class="qlab" x="66" y="420">D 작음·평균 이하</text>';
+    D.forEach(function (d) {
+      var x = SX(d.P), y = SY(d.cr), op = passes(d) ? '' : ' dim', sel = state.sel === d.name ? ' sel' : '';
+      h += '<circle class="dot ' + d.type + op + sel + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (sel ? 9 : 7) + '" data-name="' + d.name + '" tabindex="0"><title>' + d.name + '</title></circle>';
+      var p = LAB[d.name], lx = x + 11, ly = y + 4, an = 'start';
+      if (p === 'l') { lx = x - 11; an = 'end'; }
+      else if (p === 'b') { lx = x; ly = y + 22; an = 'middle'; }
+      else if (p === 'al') { lx = x - 8; ly = y - 12; an = 'end'; }
+      else if (p === 'r2') { ly = y + 10; }
+      else if (p === 'rb') { ly = y + 14; }
+      else if (p === 'ra') { ly = y - 6; }
+      h += '<text class="plab' + op + '" x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + an + '"' + (sel ? ' font-weight="700"' : '') + '>' + d.name + '</text>';
+    });
+    svg.innerHTML = h;
+  }
+
+  // 동 vs 읍면
+  (function () {
+    var grp = function (g) {
+      var xs = D.filter(function (d) { return d.gb === g; }), P = 0, cP = 0, fP = 0, H = 0;
+      xs.forEach(function (d) { P += d.P; cP += d.cP; fP += d.fP; H += d.H; });
+      return { n:xs.length, P:P, cr:cP / (P - fP) * 100, ph:P / H };
+    };
+    var a = grp('동'), b = grp('읍면');
+    $('split').innerHTML =
+      '<div class="hl"><p class="sv num up">' + pct(a.cr) + '</p><p class="sl">동 지역 조건부 비중</p><p class="sd">' + a.n + '개 동 · 수급권자 ' + fmt(a.P) + '명</p></div>' +
+      '<div><p class="sv num">' + pct(b.cr) + '</p><p class="sl">읍면 지역 조건부 비중</p><p class="sd">' + b.n + '개 읍면 · 수급권자 ' + fmt(b.P) + '명</p></div>' +
+      '<div><p class="sv num">' + (a.cr - b.cr).toFixed(1) + '%p</p><p class="sl">차이</p><p class="sd">가구당 인원은 동 ' + a.ph.toFixed(2) + '명, 읍면 ' + b.ph.toFixed(2) + '명</p></div>';
+  })();
+
+  // 표
+  function renderTable() {
+    var k = state.sortK, dir = state.sortDir;
+    var rows = D.filter(passes).sort(function (a, b) {
+      var x = a[k], y = b[k];
+      return (typeof x === 'string' ? x.localeCompare(y, 'ko') : x - y) * dir;
+    });
+    $('tbody').innerHTML = rows.map(function (d) {
+      return '<tr data-name="' + d.name + '"' + (state.sel === d.name ? ' class="sel"' : '') + '>' +
+        '<td><b style="color:var(--ink)">' + d.name + '</b><span class="tb badge ' + d.type + '">' + d.type + '</span></td><td>' + d.gb + '</td>' +
+        '<td class="num">' + fmt(d.H) + '</td><td class="num">' + fmt(d.P) + '</td><td class="num">' + pct(d.share) + '</td>' +
+        '<td class="num">' + fmt(d.cP) + '</td><td class="num">' + pct(d.cr) + '</td><td class="num">' + fmt(d.sP) + '</td>' +
+        '<td class="num">' + fmt(d.fP) + '</td><td class="num">' + d.ph.toFixed(2) + '</td></tr>';
+    }).join('');
+    $('tfoot').innerHTML = '<tr><td>시 합계</td><td></td><td class="num">' + fmt(T.H) + '</td><td class="num">' + fmt(T.P) + '</td><td class="num">100%</td>' +
+      '<td class="num">' + fmt(T.cP) + '</td><td class="num">' + pct(AVG) + '</td><td class="num">' + fmt(T.sP) + '</td><td class="num">' + fmt(T.fP) + '</td><td class="num">' + (T.P / T.H).toFixed(2) + '</td></tr>';
+    document.querySelectorAll('#tbl th').forEach(function (th) {
+      if (th.dataset.k === k) th.setAttribute('aria-sort', dir > 0 ? 'ascending' : 'descending'); else th.removeAttribute('aria-sort');
+    });
+  }
+
+  function renderAll() { renderBars(); renderDetail(); renderScatter(); renderTable();
+    document.querySelectorAll('.vlist li').forEach(function (li) { li.classList.toggle('on', li.dataset.name === state.sel); });
+  }
+  function select(name) { state.sel = (state.sel === name) ? null : name; renderAll(); }
+
+  // 이벤트
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-name]');
+    if (t && !e.target.closest('#clearSel')) { select(t.dataset.name); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-name]')) { e.preventDefault(); select(e.target.dataset.name); }
+  });
+  document.querySelectorAll('[data-metric]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.metric = b.dataset.metric;
+      document.querySelectorAll('[data-metric]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      renderBars();
+    });
+  });
+  document.querySelectorAll('[data-filter]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.filter = b.dataset.filter;
+      document.querySelectorAll('[data-filter]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      renderAll();
+    });
+  });
+  document.querySelectorAll('#tbl th button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var k = btn.parentNode.dataset.k;
+      if (state.sortK === k) state.sortDir *= -1; else { state.sortK = k; state.sortDir = (k === 'name' || k === 'gb') ? 1 : -1; }
+      renderTable();
+    });
+  });
+  var tip = $('tip'), wrapEl = $('scatterWrap');
+  $('scatter').addEventListener('mousemove', function (e) {
+    var c = e.target.closest('circle');
+    if (!c) { tip.hidden = true; return; }
+    var d = D.filter(function (x) { return x.name === c.dataset.name; })[0];
+    tip.innerHTML = '<b>' + d.name + '</b> · ' + d.type + '유형<br>수급권자 ' + fmt(d.P) + '명 · 조건부 비중 ' + pct(d.cr);
+    tip.hidden = false;
+    var r = wrapEl.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    var tw = tip.offsetWidth;
+    tip.style.left = Math.max(0, Math.min(r.width - tw, x - tw / 2)) + 'px';
+    tip.style.top = Math.max(0, y - tip.offsetHeight - 14) + 'px';
+  });
+  $('scatter').addEventListener('mouseleave', function () { tip.hidden = true; });
+
+  renderAll();
+})();
+</script>
